@@ -1,0 +1,74 @@
+{
+  "name": "ratnaafin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "rm -rf .next && next dev --turbopack",
+    "build": "rm -rf .next && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-react": "^9.3.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@lottiefiles/dotlottie-react": "^0.13.5",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.0.2",
+    "@mui/x-date-pickers": "^8.0.0-beta.3",
+    "@reduxjs/toolkit": "^2.7.0",
+    "@svgr/webpack": "^8.1.0",
+    "@types/mime": "^3.0.4",
+    "apexcharts": "^4.7.0",
+    "axios": "^1.9.0",
+    "ckeditor5": "^43.2.0",
+    "critters": "^0.0.23",
+    "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.13",
+    "gsap": "^3.14.2",
+    "js-cookie": "^3.0.5",
+    "mime": "^4.1.0",
+    "moment": "^2.30.1",
+    "next": "16.0.10",
+    "next-seo": "^7.0.1",
+    "next-sitemap": "^4.2.3",
+    "react": "19",
+    "react-apexcharts": "^1.7.0",
+    "react-cookie-consent": "^9.0.0",
+    "react-dom": "19",
+    "react-dropzone": "^14.3.8",
+    "react-redux": "^9.2.0",
+    "react-share": "^5.2.2",
+    "react-toastify": "^11.0.5",
+    "react-use-downloader": "^1.2.10",
+    "redux-persist": "^6.0.0",
+    "sharp": "^0.34.5",
+    "swiper": "^11.2.6"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.10",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  },
+  "browserslist": {
+    "production": [
+      ">0.5%",
+      "last 2 versions",
+      "not dead",
+      "not ie 11",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

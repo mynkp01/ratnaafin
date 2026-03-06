@@ -1,0 +1,179 @@
+"use client";
+import { apiHandler } from "@/api/apiHandler";
+import CustomInput from "@/components/CustomInput";
+import { setIsLoading } from "@/redux/slices/utilSlice";
+import { useAppDispatch } from "@/redux/store/store";
+import { generateValueCode } from "@/utils/Constant";
+import { isEmpty } from "@/utils/helper";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { showToast } from "src/utils/helper";
+
+interface FormData {
+  name: string;
+  value_code: string;
+}
+
+const initialFormData: FormData = {
+  name: "",
+  value_code: "",
+};
+
+const Page = () => {
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const countryId = searchParams.get("id");
+  const isViewOnly = searchParams.get("view") === "1";
+  const dispatch = useAppDispatch();
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+
+  const fetchCountryDetails = useCallback(async () => {
+    try {
+      dispatch(setIsLoading(true));
+      const { data, status } = await apiHandler.country.get(countryId);
+
+      if (status === 200 || status === 201) {
+        const country = data.data;
+        setFormData((prev) => ({
+          ...prev,
+          name: country.name || "",
+          value_code: country.value_code || "",
+        }));
+      } else {
+        showToast("error", data?.message);
+      }
+    } catch (err) {
+      showToast("error", err?.message);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }, [countryId, dispatch]);
+
+  useEffect(() => {
+    if (countryId) {
+      fetchCountryDetails();
+    }
+  }, [countryId]);
+
+  const validateFields = useCallback((name: string, value: string) => {
+    let error = "";
+
+    switch (name) {
+      case "name":
+        if (isEmpty(value)) error = "Please enter a country";
+        break;
+    }
+
+    return error;
+  }, []);
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+        ...(name === "name" && !countryId ? { value_code: generateValueCode(value) } : {}),
+      }));
+      setErrors((prev) => ({
+        ...prev,
+        [name]: validateFields(name, value),
+      }));
+    },
+    [validateFields, countryId]
+  );
+
+  const handleSubmit = useCallback(async () => {
+    if (isViewOnly) return;
+
+    const newErrors: Record<string, string> = {};
+    const requiredFields = ["name"];
+
+    requiredFields.forEach((field) => {
+      const error = validateFields(field, formData[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+
+    if (Object.keys(newErrors)?.length) {
+      setErrors(newErrors);
+      return;
+    }
+
+    try {
+      dispatch(setIsLoading(true));
+
+      const { data, status } = countryId ? await apiHandler.country.patch(countryId, formData) : await apiHandler.country.post(formData);
+      if ([200, 201].includes(status)) {
+        showToast("success", data?.message);
+        window.close();
+        // router.push(ROUTES.admin.country);
+      } else {
+        showToast("error", data?.message);
+      }
+    } catch (err) {
+      showToast("error", err?.message);
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  }, [isViewOnly, formData, validateFields, countryId, dispatch, router]);
+
+  return (
+    <div className="border-wh-300 flex flex-col items-center gap-4 rounded-2xl border bg-white">
+      <div className="flex w-full flex-col gap-4 p-4 md:p-6">
+        <h1 className="text-xl font-bold">{countryId ? (isViewOnly ? "View Country" : "Edit Country") : "Add New Country"}</h1>
+        <div className="grid grid-cols-1 gap-[10px] md:grid-cols-2">
+          <div className="flex-1">
+            <CustomInput
+              label="Country"
+              name="name"
+              placeholder="Enter country"
+              value={formData?.name}
+              onChange={handleInputChange}
+              disabled={isViewOnly}
+              required
+            />
+            {errors?.name && <p className="error-text mt-1 text-sm text-red-500">{errors?.name}</p>}
+          </div>
+          <div className="flex-1">
+            <CustomInput
+              label="Value Code"
+              name="value_code"
+              toolTipText="This is an internal reference code that cannot be modified after creation. It is used for backend operations only and will not be displayed elsewhere."
+              placeholder="Value code will be auto-generated"
+              value={formData.value_code}
+              onChange={handleInputChange}
+              disabled={isViewOnly}
+              required
+            />
+            {errors.value_code && <p className="error-text mt-1 text-sm text-red-500">{errors.value_code}</p>}
+          </div>
+        </div>
+
+        <div className="mt-4 flex flex-row gap-4">
+          <button
+            type="button"
+            onClick={() => window.close()}
+            className="text-15-700 btn-fill-hover h-fit w-fit rounded-xl border-2 border-blue-100 bg-blue-100 p-1.5 text-primary-100 sm:px-3 sm:py-2.5"
+          >
+            Cancel
+          </button>
+          {!isViewOnly && (
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="shadow-outer h-fit w-fit rounded-xl border border-blue-100 bg-primary-100 p-1.5 text-blue-100 sm:px-3 sm:py-2.5"
+            >
+              {countryId ? "Update" : "Add"}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Page;

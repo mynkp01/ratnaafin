@@ -1,0 +1,182 @@
+<!-- This is a custom 404 page for the Ratnaafin Next project. -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .background-404 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 30rem;
+        font-weight: 900;
+        color: #e9ecef;
+        z-index: 1;
+        user-select: none;
+        line-height: 1;
+      }
+
+      .error-container {
+        text-align: center;
+        z-index: 2;
+        position: relative;
+      }
+
+      .error-404 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+        font-size: 8rem;
+        font-weight: bold;
+        line-height: 1;
+      }
+
+      .four-left {
+        color: #1976d2;
+      }
+
+      .rupee-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #1976d2 0%, #4caf50 100%);
+        border-radius: 50%;
+        margin: 0 1rem;
+        position: relative;
+      }
+
+      .rupee-symbol {
+        color: white;
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .four-right {
+        color: #4caf50;
+      }
+
+      .error-message {
+        font-size: 1.5rem;
+        color: #333;
+        margin: 2rem;
+        font-weight: 500;
+      }
+
+      .back-button {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+      }
+
+      .back-button:hover {
+        background-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+      }
+
+      .back-button:active {
+        transform: translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        .background-404 {
+          font-size: 15rem;
+        }
+
+        .error-404 {
+          font-size: 4rem;
+          flex-direction: row;
+          gap: 1rem;
+        }
+
+        .rupee-container {
+          width: 80px;
+          height: 80px;
+          margin: 0;
+        }
+
+        .rupee-symbol {
+          font-size: 2rem;
+        }
+
+        .error-message {
+          font-size: 1.2rem;
+        }
+
+        .back-button {
+          padding: 10px 25px;
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .background-404 {
+          font-size: 10rem;
+        }
+
+        .error-404 {
+          font-size: 3rem;
+        }
+
+        .rupee-container {
+          width: 60px;
+          height: 60px;
+        }
+
+        .rupee-symbol {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-404">404</div>
+
+    <div class="error-container">
+      <div class="error-404">
+        <span class="four-left">4</span>
+        <div class="rupee-container">
+          <span class="rupee-symbol">₹</span>
+        </div>
+        <span class="four-right">4</span>
+      </div>
+
+      <div class="error-message">
+        We're working hard to improve your experience. Please check back soon.
+      </div>
+    </div>
+  </body>
+</html>
